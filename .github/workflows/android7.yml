@@ -17,10 +17,11 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - uses: android-actions/setup-android@v3
-
       - name: Install NDK and CMake
-        run: sdkmanager "ndk;28.1.13356709" "cmake;3.31.6" "platform-tools"
+        run: |
+          export PATH="$ANDROID_HOME/cmdline-tools/latest/bin:$PATH"
+          yes | sdkmanager --licenses >/dev/null 2>&1 || true
+          sdkmanager "ndk;28.1.13356709" "cmake;3.31.6" "platform-tools"
 
       - name: Install conan
         run: pip install conan numpy
