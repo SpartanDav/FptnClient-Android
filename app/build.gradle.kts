@@ -126,6 +126,7 @@ android {
     }
 
     compileOptions {
+        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
@@ -154,6 +155,7 @@ android {
 
 dependencies {
     // Firebase only in the `gms` flavor (AAB). The `foss` flavor (APK) has none of it.
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.5")
     "gmsImplementation"(platform(libs.firebase.bom))
     "gmsImplementation"(libs.firebase.analytics)
     "gmsImplementation"(libs.firebase.crashlytics.ndk)
