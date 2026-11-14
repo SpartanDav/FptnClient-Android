@@ -31,3 +31,11 @@
 # Keep Kotlin coroutines
 -keepnames class kotlinx.coroutines.internal.MainDispatcherFactory {}
 -keepnames class kotlinx.coroutines.CoroutineExceptionHandler {}
+
+# Ignore missing Java SE classes (not in Android)
+-dontwarn java.beans.**
+-dontwarn javax.xml.**
+-dontwarn javax.annotation.**
+
+# Ignore Jackson references to Java SE
+-dontwarn com.fasterxml.jackson.databind.ext.**
