@@ -218,7 +218,7 @@ tasks.register("conanInstall") {
     group = "c++"
     doLast {
         val conanBuildDir = layout.buildDirectory.dir("conan").get().asFile.apply { mkdirs() }
-        listOf("Debug", "Release", "RelWithDebInfo").forEach { buildType ->
+        listOf("Debug").forEach { buildType ->
             listOf("armv8", "armv7", "x86_64").forEach { arch ->
                 val process = ProcessBuilder(
                     "conan", "install", "$projectDir/src/main/cpp",
