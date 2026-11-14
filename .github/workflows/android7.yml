@@ -1,0 +1,59 @@
+name: Android 7 build
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - uses: android-actions/setup-android@v3
+
+      - name: Install NDK and CMake
+        run: sdkmanager "ndk;28.1.13356709" "cmake;3.31.6" "platform-tools"
+
+      - name: Install conan
+        run: pip install conan numpy
+
+      - name: Cache conan packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.conan2
+          key: conan-api24-v1
+          restore-keys: conan-api24-
+
+      - name: Detect conan profile
+        run: conan profile detect -f
+
+      - name: Build FOSS debug APK
+        run: |
+          chmod +x gradlew
+          ./gradlew --no-daemon :app:assembleFossDebug
+
+      - name: Lint
+        continue-on-error: true
+        run: ./gradlew --no-daemon :app:lintFossDebug
+
+      - name: Upload APKs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fptn-android7-apks
+          path: app/build/outputs/apk/foss/debug/*.apk
+
+      - name: Upload lint report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lint-report
+          path: app/build/reports/lint-results-fossDebug.*
