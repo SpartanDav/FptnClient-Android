@@ -19,3 +19,15 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# Keep Jackson (JSON parser)
+-keep class com.fasterxml.jackson.** { *; }
+-keepclassmembers class com.fasterxml.jackson.** { *; }
+
+# Keep FPTN classes
+-keep class org.fptn.vpn.** { *; }
+-keepclassmembers class org.fptn.vpn.** { *; }
+
+# Keep Kotlin coroutines
+-keepnames class kotlinx.coroutines.internal.MainDispatcherFactory {}
+-keepnames class kotlinx.coroutines.CoroutineExceptionHandler {}
