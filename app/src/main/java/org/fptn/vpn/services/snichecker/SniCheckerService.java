@@ -361,8 +361,13 @@ public class SniCheckerService extends Service {
         // In Api level 24 an above, there is no icon in design!!!
         Notification.Action actionStopChecking = new Notification.Action.Builder(null, getString(R.string.stop_sni_checking_button_label), stopPendingIntent)
                 .build();
-        Notification.Builder builder = new Notification.Builder(this, Constants.SNI_CHECKER_NOTIFICATION_CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_sql_server_24)
+        Notification.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            builder = new Notification.Builder(this, Constants.SNI_CHECKER_NOTIFICATION_CHANNEL_ID);
+        } else {
+            builder = new Notification.Builder(this);
+        }
+        builder.setSmallIcon(R.drawable.ic_sql_server_24)
                 .setContentTitle(title)
                 .setContentText(message)
                 .setVisibility(Notification.VISIBILITY_PUBLIC) // Show this notification in its entirety on all lockscreens and while screen sharing.
