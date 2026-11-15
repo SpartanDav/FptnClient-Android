@@ -29,10 +29,12 @@ import org.fptn.vpn.R;
 import org.fptn.vpn.Constants;
 import org.jetbrains.annotations.NotNull;
 
+import android.os.Build;
+
 public class NotificationUtils {
     public static void configureNotificationChannels(Context context) {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return;
         // add main notification channel
         createOrUpdateNotificationChannel(context, notificationManager,
                 Constants.MAIN_NOTIFICATION_CHANNEL_ID,
@@ -73,6 +75,7 @@ public class NotificationUtils {
                                                           String channelGroupName,
                                                           int importance,
                                                           boolean disableSound) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return;
         // add notification channel
         NotificationChannel notificationChannel = notificationManager.getNotificationChannel(channelId);
         int notificationChannelOnDevice = SharedPrefUtils.getNotificationChannelVersion(context, versionTag);
